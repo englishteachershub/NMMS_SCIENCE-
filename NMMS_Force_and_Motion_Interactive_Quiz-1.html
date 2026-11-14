@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NMMS Science Quiz – Force and Motion</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--navy:#14213d;--blue:#2563eb;--green:#15803d;--red:#dc2626;--gold:#f59e0b;--bg:#f3f6fb}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:'Noto Sans Tamil',system-ui,sans-serif;color:#172033}
+header{background:linear-gradient(120deg,#14213d,#2457a6);color:white;padding:24px 16px;text-align:center}
+header h1{font-size:clamp(20px,4vw,30px);margin:4px 0}header p{margin:6px 0;font-size:14px}
+.wrap{max-width:980px;margin:18px auto;padding:0 12px}
+.panel{background:white;border-radius:16px;padding:18px;margin-bottom:16px;box-shadow:0 5px 20px #1e3a8a12}
+.formgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+label{font-weight:700;font-size:14px;display:block;margin-bottom:6px}
+input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font:inherit}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}
+.stat{background:#eff6ff;border-radius:12px;padding:10px;text-align:center}.stat b{display:block;font-size:23px;color:#1d4ed8}
+.progress{height:10px;background:#e5e7eb;border-radius:20px;overflow:hidden;margin-top:12px}.bar{height:100%;width:0;background:linear-gradient(90deg,#22c55e,#0ea5e9);transition:width .25s}
+.qcard{background:white;border-radius:15px;margin:14px 0;padding:17px;box-shadow:0 4px 15px #0f172a0d;border-left:5px solid #93c5fd}
+.qhead{display:flex;gap:10px;align-items:flex-start}.qno{background:#dbeafe;color:#1d4ed8;border-radius:9px;padding:5px 9px;font-weight:800;white-space:nowrap}
+.question{font-weight:700;line-height:1.8;flex:1}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:13px}
+.opt{border:1.5px solid #dbe2ee;border-radius:11px;padding:11px;text-align:left;background:#fff;color:#172033;font:inherit;line-height:1.65;cursor:pointer;transition:.15s}
+.opt:hover{border-color:#60a5fa;background:#f8fbff}.opt:disabled{cursor:default;opacity:1}
+.opt.correct{background:#dcfce7;border-color:#16a34a;color:#14532d;font-weight:700}
+.opt.wrong{background:#fee2e2;border-color:#dc2626;color:#7f1d1d;font-weight:700}
+.feedback{min-height:26px;margin-top:9px;font-weight:700}.good{color:var(--green)}.bad{color:var(--red)}
+.tag{font-size:12px;color:#64748b;margin-top:8px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+button.action{border:0;border-radius:11px;padding:12px 18px;font:700 15px 'Noto Sans Tamil',sans-serif;cursor:pointer}
+.primary{background:#1d4ed8;color:white}.secondary{background:#e2e8f0;color:#172033}.success{background:#15803d;color:white}
+#summary{display:none;text-align:center}.badge{font-size:42px}
+footer{text-align:center;color:#64748b;font-size:13px;padding:20px}
+.graph{display:flex;align-items:end;gap:8px;height:90px;border-left:2px solid #475569;border-bottom:2px solid #475569;padding:5px;margin:12px 0 6px;max-width:310px}
+.graph span{flex:1;border-top:3px solid #2563eb;position:relative;transform-origin:left}
+.smallnote{font-size:13px;color:#64748b}
+@media(max-width:600px){.options{grid-template-columns:1fr}.stats{gap:6px}.stat b{font-size:19px}.qcard{padding:13px}}
+@media print{body{background:white}.noprint,header .subtitle{display:none!important}.wrap{max-width:none;margin:0;padding:0}.panel,.qcard{box-shadow:none;break-inside:avoid;border:1px solid #ddd}.qcard{margin:8px 0;padding:10px}.options{grid-template-columns:1fr 1fr}.opt{padding:6px;font-size:11px}.question{font-size:12px}header{background:white;color:#111;padding:8px}footer{padding:8px}}
+</style>
+</head>
+<body>
+<header>
+ <p>NMMS – VII STANDARD • SCIENCE</p>
+ <h1>7.1.2. விசையும் இயக்கமும்</h1>
+ <p class="subtitle">50 வினாக்கள் • உடனடி மதிப்பீடு • PDF செயல்திறன் அறிக்கை</p>
+ <p><b>GHSS ERASAKKANAYAKANUR</b></p>
+</header>
+<div class="wrap">
+ <section class="panel noprint">
+  <div class="formgrid">
+   <div><label for="student">மாணவர் பெயர்</label><input id="student" placeholder="மாணவர் பெயரை உள்ளிடவும்"></div>
+   <div><label for="className">வகுப்பு / பிரிவு</label><input id="className" value="VII"></div>
+   <div><label for="school">பள்ளியின் பெயர்</label><input id="school" value="GHSS ERASAKKANAYAKANUR"></div>
+  </div>
+  <div class="stats">
+   <div class="stat">மதிப்பெண்<b id="score">0 / 50</b></div>
+   <div class="stat">பதிலளித்தவை<b id="answered">0 / 50</b></div>
+   <div class="stat">மீதமுள்ளவை<b id="remaining">50</b></div>
+  </div>
+  <div class="progress"><div class="bar" id="bar"></div></div>
+  <p class="smallnote">ஒரு விடையைத் தேர்ந்தெடுத்தவுடன் சரி / தவறு உடனடியாகக் காட்டப்படும். மீண்டும் மாற்ற முடியாது.</p>
+ </section>
+ <div id="quiz"></div>
+ <section class="panel" id="summary">
+  <div class="badge" id="badge">🏆</div><h2 id="message"></h2>
+  <p id="finalscore"></p><p id="encourage"></p>
+ </section>
+ <section class="panel noprint">
+  <div class="actions">
+   <button class="action primary" onclick="downloadReport()">⬇ PDF அறிக்கையைப் பதிவிறக்குக</button>
+   <button class="action secondary" onclick="window.print()">🖨 அச்சிடுக / PDF ஆகச் சேமிக்க</button>
+   <button class="action secondary" onclick="location.reload()">மீண்டும் தொடங்கு</button>
+  </div>
+  <p class="smallnote" style="text-align:center">PDF அறிக்கையில் மாணவர் விவரம், மதிப்பெண், ஒவ்வொரு வினா, தேர்ந்தெடுத்த விடை, சரியான விடை ஆகியவை இடம்பெறும்.</p>
+ </section>
+</div>
+<footer>Prepared by T.S. RAMACHANDRAN • English Language Teacher • GHSS ERASAKKANAYAKANUR</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+const questions = [
+["ஒரு பொருளானது ஓர் இடத்திலிருந்து மற்றோர் இடத்திற்கு கடந்து வந்த பாதையின் மொத்த நீளம் ______ எனப்படும்.",["வேகம்","இடப்பெயர்ச்சி","தொலைவு","முடுக்கம்"],3],
+["இயக்கத்திலுள்ள ஒரு பொருளின் ஆரம்ப மற்றும் இறுதி நிலைகளுக்கிடையே உள்ள குறைந்தபட்ச நேர்கோட்டுத் தொலைவு ______ எனப்படும்.",["வேகம்","இடப்பெயர்ச்சி","தொலைவு","முடுக்கம்"],2],
+["தொலைவு மாறுபடும் வீதம் ______ எனப்படும்.",["வேகம்","திசைவேகம்","சீரான வேகம்","சீரற்ற வேகம்"],1],
+["இடப்பெயர்ச்சி மாறுபடும் வீதம் ______ எனப்படும்.",["வேகம்","சராசரி வேகம்","திசைவேகம்","சராசரி முடுக்கம்"],3],
+["திசைவேகம் மாறுபடும் வீதம் ______ எனப்படும்.",["வேகம்","சராசரி வேகம்","முடுக்கம்","சராசரி முடுக்கம்"],3],
+["பொருத்துக: a) வேகம்  b) திசைவேகம்  c) முடுக்கம்  d) சராசரி வேகம்",["a–iii, b–ii, c–iv, d–i","a–ii, b–i, c–iii, d–iv","a–iv, b–i, c–ii, d–iii","a–iv, b–i, c–iii, d–ii"],3],
+["ஒரு பொருள் தனது திசையை மாற்றாமல் சீரான கால இடைவெளியில் சீரான இடப்பெயர்ச்சியை மேற்கொண்டால் அப்பொருள் ______ நிலையில் உள்ளது.",["சீரான முடுக்கம்","சீரான திசைவேகம்","சீரற்ற திசைவேகம்","சீரற்ற முடுக்கம்"],2],
+["ஒரு நாட்டிகல் மைல் என்பது ______ கி.மீ ஆகும்.",["100","1.852","1000","2.852"],2],
+["ஒருவர் A இடத்திலிருந்து B இடத்தை ஒரு குறிப்பிட்ட பாதையில் கடந்தார். அவர் கடந்த தொலைவு 10 மீ; இடப்பெயர்ச்சி 10 மீ எனில், அவர் கடந்த பாதை ______.",["வட்ட வடிவப் பாதை","நேர்கோட்டுப் பாதை","சதுர வடிவப் பாதை","செவ்வக வடிவப் பாதை"],2],
+["பொருந்தாத இணையைக் தேர்வு செய்க.",["வேகம் – மீ/வி","முடுக்கம் – மீ/வி²","இடப்பெயர்ச்சி – மீ/வி","திசைவேகம் – மீ/வி"],3],
+["சென்னையிலிருந்து மும்பைக்கு (1080 கி.மீ) விமானம் மூலம் 2 மணி நேரத்தில் சென்றால் விமானத்தின் சராசரி வேகத்தை மீ/வி-ல் காண்க.",["540 மீ/வி","150 மீ/வி","2060 மீ/வி","0.0054 மீ/வி"],2],
+["கடல் மற்றும் வான்வழிப் போக்குவரத்துகளில் தொலைவினை அளக்கப் பயன்படும் அலகு எது?",["நாட்","நாட்டிகல் மைல்","ஒளி ஆண்டு","1 மற்றும் 2"],4],
+["இயக்கத்திலுள்ள ஒரு பொருள் மீண்டும் தனது தொடக்க நிலையை அடைந்தால் அதன் ______ சுழியாகும்.",["வேகம்","இடப்பெயர்ச்சி","தொலைவு","முடுக்கம்"],2],
+["பொருந்தாததைத் தேர்வு செய்க.",["s = d/t","d = t × s","s = t/d","d = s × t"],3],
+["பொருந்தாததைத் தேர்வு செய்க.",["a = (v – u)/t","t = a/(v – u)","t = (v – u)/a","a × t = v – u"],2],
+["சர்வேஷ் தனது வீட்டிலிருந்து 10 நிமிடங்களில் மிதிவண்டியில் பள்ளிக்குச் சென்றார். மிதிவண்டியின் வேகம் 2 மீ/வி எனில், வீட்டிற்கும் பள்ளிக்கும் உள்ள தொலைவு ______.",["5 மீ","20 மீ","1200 மீ","30 மீ"],3],
+["கீழ்க்காணும் வரைபடம் குறிப்பிடுவது எது? (தொலைவு–கால வரைபடத்தில் கிடைமட்டக் கோடு)",["சீரான வேகம்","மாறுபாடு வேகம்","பொருள் நிலையாக உள்ளமை","சீரற்ற வேகம்"],3],
+["ஒரு மாரத்தான் ஓட்டப்பந்தய வீரர் 42 கி.மீ தொலைவினை 6 மணி நேரத்தில் கடக்கிறார் எனில் அவரின் வேகம் ______.",["1.94 கி.மீ/மணி","1.94 மீ/வி","7 மீ/வி","7 கி.மீ/மணி"],4],
+["ஒரு நேர்கோட்டுப் பாதையில் 36 கி.மீ/மணி திசைவேகத்தில் இயங்கும் கார் 10 வினாடிகளில் 18 கி.மீ/மணி திசைவேகத்தை அடைகிறது. அதன் எதிர் முடுக்கம் ______.",["−0.5 மீ/வி²","−1.8 மீ/வி²","−3.0 மீ/வி²","0.5 மீ/வி²"],1],
+["பின்வரும் படங்களில் எப்படம் பொருளின் சீரான இயக்கத்தைக் குறிக்கிறது? (தொலைவு–கால வரைபடம்)",["வளைந்த கோடு","கிடைமட்டக் கோடு","மேல்நோக்கி வளைந்த கோடு","தொடக்கத்திலிருந்து நேர்கோட்டுச் சாய்வு"],4],
+["சீரற்ற திசைவேகத்தின்போது ______.",["திசை மட்டும் மாறும்","வேகம் மட்டும் மாறும்","திசை அல்லது வேகம் மாறும்","திசை, வேகம் மாறாது"],3],
+["ஒரு கப்பல் மணிக்கு 50 கி.மீ வேகத்தில் 7200 வினாடியில் தனது பயணத்தை நிறைவு செய்தது. கப்பல் கடந்த தொலைவு எவ்வளவு?",["100 கி.மீ","144 கி.மீ","7250 கி.மீ","1000 கி.மீ"],1],
+["10 மீ/வி என்ற சீரான வேகத்தில் செல்லும் மகிழுந்தின் தொலைவு–கால வரைபடம் தரப்பட்டுள்ளது. சரியான கூற்றுகளைத் தேர்வு செய்க: a) சாய்வு மாறாதது b) 2.2 வினாடியில் 22 மீ c) 7 வினாடியில் 70 மீ d) வேகம் 10 மீ/வி.",["a, b, c, d","b மட்டும்","b, d மட்டும்","d மட்டும்"],1],
+["சுழி முடுக்கத்தைக் குறிக்கும் திசைவேகம்–கால வரைபடம் எது?",["கிடைமட்டக் கோடு","கீழ்நோக்கிச் சாயும் கோடு","மேல்நோக்கிச் சாயும் கோடு","வளைந்த மேல்நோக்கிக் கோடு"],1],
+["ஒரு நேர்கோட்டுப் பாதையில் 8 மீ/வி திசைவேகத்தில் இயங்கும் பந்து 10 வினாடியில் 2 மீ/வி திசைவேகத்தை அடைகிறது. முடுக்கத்தின் வகையும் மதிப்பும் யாது?",["நேர் முடுக்கம், −0.6 மீ/வி²","எதிர் முடுக்கம், 0.6 மீ/வி²","எதிர் முடுக்கம், −0.6 மீ/வி²","சுழி முடுக்கம், 0.6 மீ/வி²"],3],
+["வேகம்–கால வரைபடத்தின் சாய்வானது ______ மதிப்பைத் தருகிறது.",["வேகம்","திசைவேகம்","முடுக்கம்","சராசரி வேகம்"],3],
+["பின்வரும் நபர்களில் அதிக வேகத்துடன் பயணிப்பவர் யார்?",["ஆதித்யா: 60 வினாடிகளில் 300 மீ","ரமேஷ்: 1 நிமிடத்தில் 600 மீ","சுரேஷ்: 1 மணி நேரத்தில் 2 கி.மீ","பாலா: 1 மணி நேரத்தில் 1500 மீ"],2],
+["ஒருவர் A-லிருந்து B-க்கு பாதை 1 வழியாக 5 மணி நேரத்தில் சென்றார். வரைபடத்தில் A–B இடப்பெயர்ச்சி 5 கி.மீ எனில் அவரது திசைவேகம் ______ கி.மீ/மணி.",["10","2","5","1"],4],
+["ஒரு பூனை 10 வினாடியில் 150 மீ தொலைவைக் கடந்தால் அதன் சராசரி வேகம் எவ்வளவு?",["1500 மீ/வி","15 மீ/வி","160 மீ/வி","1.5 மீ/வி"],2],
+["கொடுக்கப்பட்ட தகவல்களின் அடிப்படையில் தவறான கூற்று எது? (A–B, B–C, C–D, D–E, E–F பகுதிகளைக் கொண்ட வேகம்–கால வரைபடம்)",["A→B நேர்முடுக்கத்தைக் குறிக்கிறது","D→E எதிர்முடுக்கத்தைக் குறிக்கிறது","C→D சுழிமுடுக்கத்தைக் குறிக்கிறது","B→C எதிர்முடுக்கத்தைக் குறிக்கிறது"],4],
+["ஒரு நேர்கோட்டுப் பாதையில் 18 மீ/வி திசைவேகத்தில் இயங்கும் கோல்ஃப் பந்து 5 வினாடிகளில் 8 மீ/வி திசைவேகத்தை அடைகிறது. அதன் எதிர்முடுக்கம் யாது?",["2 மீ/வி²","−2 மீ/வி²","−0.2 மீ/வி²","2.5 மீ/வி²"],2],
+["ஒரு மகிழுந்து ஓய்வு நிலையிலிருந்து 10 வினாடிகளில் 20 மீ/வி வேகத்தில் பயணம் செய்யத் தொடங்குகிறது. முடுக்கம் ______.",["2 கி.மீ/வி²","10 மீ/வி²","200 மீ/வி²","2 மீ/வி²"],4],
+["ஒரு பேருந்தின் முடுக்கம் 1 மீ/வி² எனில், 64 கி.மீ/மணி வேகத்திலிருந்து 100 கி.மீ/மணி வேகத்தை அடைய எடுத்துக்கொள்ளும் காலம் ______.",["36 வி","10 மணி","10 வி","164 வி"],3],
+["ஒருவர் A இடத்திலிருந்து B இடத்திற்குச் சென்று பின்னர் C இடத்தை அடைந்தார். AB = 3 மீ, BC = 4 மீ. கடந்த தொலைவு மற்றும் இடப்பெயர்ச்சி முறையே ______.",["3 மீ, 7 மீ","4 மீ, 7 மீ","7 மீ, 5 மீ","5 மீ, 7 மீ"],3],
+["தவறான இணையைக் தேர்ந்தெடுக்கவும்.",["1 கி.மீ/மணி = 5/18 மீ/வி","ராக்கெட்டின் வேகம் = 5200 மீ/வி","1 நாட்டிகல் மைல் = 1.852 கி.மீ","சிறுத்தையின் வேகம் = 1.4 மீ/வி"],4],
+["வெற்றிடத்தில் பயணம் செய்யும் ஒளி பெற்றிருப்பது ______.",["சீரற்ற முடுக்கம்","சீரான திசைவேகம்","சீரற்ற திசைவேகம்","எதிர் முடுக்கம்"],2],
+["ஒருவர் வடக்குத் திசையில் 8 கி.மீ சென்று பின்னர் தெற்குத் திசையில் 2 கி.மீ பயணம் செய்கிறார். பயணத்தை முடிக்க 3 மணி நேரம் எடுத்துக்கொண்டால் சராசரி திசைவேகம் எவ்வளவு?",["0.3 மீ/வி","0.3 கி.மீ/மணி","2 கி.மீ/மணி","2 மீ/வி"],3],
+["ஓய்வு நிலையிலுள்ள மகிழுந்து சீரான முடுக்கத்தில் 4 வினாடிகளில் 20 மீ/வி வேகத்தை அடைகிறது. முடுக்கம் ______.",["5 மீ/வி²","5 மீ/வி","80 மீ/வி²","80 மீ/வி"],1],
+["கூற்று: ஒரு பேருந்து 20 மீ/வி என்ற மாறாத வேகத்தில் செல்கிறது. காரணம்: இந்நிலையில் முடுக்கம் சுழியாகும்.",["கூற்று சரி; காரணம் தவறு","கூற்று தவறு; காரணம் சரி","கூற்று மற்றும் காரணம் தவறு","கூற்று மற்றும் காரணம் சரி"],4],
+["தொலைவு–கால வரைபடத்தில் சாய்வின் மதிப்பு மாறாமல் இருந்தால், அது ______ ஐக் குறிக்கிறது.",["ஓய்வு நிலை","சீரான வேகம்","சீரற்ற வேகம்","சீரான முடுக்கம்"],2],
+["ஒரு பொருளின் எச்சநிலையில் அதன் ஈர்ப்பு மையத்தின் உயரம் மாறுவதில்லை. இது ______ சமநிலை.",["உறுதியற்ற சமநிலை","உறுதிச் சமநிலை","நடுநிலைச் சமநிலை","அனைத்தும்"],3],
+["ஒழுங்கான வடிவமுடைய பொருளின் ஈர்ப்பு மையம் அதன் ______ ல் அமையும்.",["ஓரங்கள்","வடிவியல் மையம்","விளிம்புகள்","1 மற்றும் 3"],2],
+["ஒரு பொருளின் சமநிலையை எவ்வாறு அதிகரிக்கலாம்?",["ஈர்ப்பு மையத்தைக் குறைந்த உயரத்தில் அமைத்தல்","அடிப்பரப்பை அதிகரித்தல்","அடிப்பகுதியைக் கனமாக அமைத்தல்","அனைத்தும்"],4],
+["கூற்று: சொகுசுப் பேருந்துகளின் அடிப்பகுதியில் பொருள்களை வைப்பதற்கான அறைகள் அமைக்கப்படுகின்றன. காரணம்: ஈர்ப்பு மையத்தின் உயரம் அதிகரிக்கப்பட்டால் சமநிலை அதிகரிக்கும்.",["கூற்று சரி; காரணம் தவறு","கூற்று தவறு; காரணம் சரி","கூற்று மற்றும் காரணம் தவறு","கூற்று மற்றும் காரணம் சரி"],1],
+["ஒரு பொருளின் எடை முழுவதும் செயல்படுவதாகத் தோன்றும் புள்ளி அப்பொருளின் ______ எனப்படும்.",["ஈர்ப்பு மையம்","புவி மையம்","சமநிலை","எதுவுமில்லை"],1],
+["கூற்று: இரண்டு அடுக்கு பேருந்துகளில் மேல் அடுக்கில் அனுமதிக்கப்பட்ட பயணிகளின் எண்ணிக்கையைவிடக் கூடுதல் பயணிகள் அனுமதிக்கப்படுவதில்லை. காரணம்: ஈர்ப்பு மையம் உயர்ந்தால் சமநிலை குறையும்.",["கூற்று சரி; காரணம் தவறு","கூற்று தவறு; காரணம் சரி","கூற்று மற்றும் காரணம் தவறு","கூற்று மற்றும் காரணம் சரி"],4],
+["கூற்று: மேசை விளக்குகள், காற்றாடிகள் போன்றவற்றின் அடிப்பரப்பு குறுகியதாக இருக்குமாறு தயாரிக்கப்படுகின்றன. காரணம்: அடிப்பரப்பு அகலமாக இருந்தால் சமநிலை அதிகரிக்கும்.",["கூற்று சரி; காரணம் தவறு","கூற்று தவறு; காரணம் சரி","கூற்று மற்றும் காரணம் தவறு","கூற்று மற்றும் காரணம் சரி"],2],
+["ஒருவர் கிழக்குத் திசையில் 2 மீ சென்று பின்னர் மேற்குத் திசையில் 6 மீ பயணம் செய்கிறார். கடந்த தொலைவு மற்றும் இடப்பெயர்ச்சி முறையே ______.",["2 மீ, 4 மீ மேற்கு","2 மீ, 6 மீ மேற்கு","6 மீ, 4 மீ மேற்கு","4 மீ, 6 மீ மேற்கு"],3],
+["ஒருவர் ஒரு குறிப்பிட்ட திசையில் 20 கி.மீ தொலைவு பயணம் செய்கிறார். அவரின் இடப்பெயர்ச்சி 0 கி.மீ எனில் சரியான கூற்று எது?",["நேர்கோட்டுத் திசையில் பயணம் செய்கிறார்","புறப்பட்ட அதே இடத்தை மீண்டும் அடைந்துவிட்டார்","20 கி.மீ/மணி வேகத்தில் பயணிக்கிறார்","கடந்த தொலைவு 0 கி.மீ"],2],
+["கீழ்க்கண்ட தொலைவு–கால வரைபடத்தில் CD என்ற நிலை குறிப்பிடுவது ______.",["சீரற்ற முடுக்கம்","சீரான முடுக்கம்","சீரான வேகம்","ஓய்வு நிலை"],3]
+];
+const quiz=document.getElementById('quiz');
+let chosen=Array(questions.length).fill(null), score=0;
+const tamilDigits=n=>String(n);
+function render(){
+ questions.forEach((q,i)=>{
+  const card=document.createElement('section');card.className='qcard';card.id='q'+(i+1);
+  const head=document.createElement('div');head.className='qhead';
+  const no=document.createElement('span');no.className='qno';no.textContent='வினா '+(i+1);
+  const text=document.createElement('div');text.className='question';text.textContent=q[0];
+  head.append(no,text);card.append(head);
+  const opts=document.createElement('div');opts.className='options';
+  q[1].forEach((op,j)=>{
+   const b=document.createElement('button');b.className='opt';b.type='button';b.innerHTML='<b>('+ (j+1)+')</b> '+escapeHtml(op);
+   b.addEventListener('click',()=>answer(i,j,card));opts.append(b);
+  });
+  card.append(opts);
+  const fb=document.createElement('div');fb.className='feedback';fb.id='fb'+i;card.append(fb);
+  quiz.append(card);
+ });
+}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function answer(i,j,card){
+ if(chosen[i]!==null)return;
+ chosen[i]=j;const correct=questions[i][2]-1;const buttons=card.querySelectorAll('.opt');
+ buttons.forEach((b,k)=>{b.disabled=true;if(k===correct)b.classList.add('correct');if(k===j&&j!==correct)b.classList.add('wrong');});
+ const fb=document.getElementById('fb'+i);
+ if(j===correct){score++;fb.className='feedback good';fb.textContent='✓ சரியான விடை! அருமை!';}
+ else{fb.className='feedback bad';fb.textContent='✕ தவறான விடை. சரியான விடை: ('+(correct+1)+') '+questions[i][1][correct];}
+ update();
+ if(chosen.every(x=>x!==null))finish();
+}
+function update(){
+ const n=chosen.filter(x=>x!==null).length;
+ document.getElementById('score').textContent=score+' / 50';
+ document.getElementById('answered').textContent=n+' / 50';
+ document.getElementById('remaining').textContent=50-n;
+ document.getElementById('bar').style.width=(n/50*100)+'%';
+}
+function finish(){
+ const s=document.getElementById('summary');s.style.display='block';
+ let msg,badge,enc;
+ if(score>=45){msg='அற்புதம்! நீங்கள் NMMS சாம்பியன்!';badge='🏆';enc='உங்கள் முயற்சி மிகச் சிறப்பானது. இதே வேகத்தில் தொடருங்கள்!';}
+ else if(score>=35){msg='மிகச் சிறந்த முயற்சி!';badge='🌟';enc='சிறிய திருத்தங்கள் செய்தால் இன்னும் உயர்ந்த மதிப்பெண் பெறலாம்.';}
+ else if(score>=25){msg='நல்ல முன்னேற்றம்!';badge='👏';enc='தவறான விடைகளை மீண்டும் படித்து பயிற்சி செய்யுங்கள். உங்களால் முடியும்!';}
+ else{msg='முயற்சியைத் தொடருங்கள்!';badge='💪';enc='ஒவ்வொரு தவறும் ஒரு கற்றல் வாய்ப்பு. மீண்டும் படித்து முயற்சி செய்யுங்கள்!';}
+ document.getElementById('message').textContent=msg;document.getElementById('badge').textContent=badge;
+ document.getElementById('finalscore').textContent='உங்கள் மதிப்பெண்: '+score+' / 50 ('+Math.round(score/50*100)+'%)';
+ document.getElementById('encourage').textContent=enc;
+ if(score>=25)confetti();
+ s.scrollIntoView({behavior:'smooth'});
+}
+function confetti(){
+ const canvas=document.createElement('canvas');canvas.style='position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999';document.body.append(canvas);
+ const c=canvas.getContext('2d');canvas.width=innerWidth;canvas.height=innerHeight;
+ const bits=Array.from({length:150},()=>({x:Math.random()*canvas.width,y:-Math.random()*canvas.height,v:2+Math.random()*4,r:3+Math.random()*4,col:['#22c55e','#f59e0b','#3b82f6','#ec4899'][Math.floor(Math.random()*4)]}));
+ let frame=0;function draw(){c.clearRect(0,0,canvas.width,canvas.height);bits.forEach(p=>{p.y+=p.v;p.x+=Math.sin(p.y/20);c.fillStyle=p.col;c.fillRect(p.x,p.y,p.r,p.r)});if(++frame<160)requestAnimationFrame(draw);else canvas.remove()}draw();
+}
+async function downloadReport(){
+ const name=document.getElementById('student').value.trim()||'பெயர் குறிப்பிடப்படவில்லை';
+ const cls=document.getElementById('className').value.trim()||'VII';
+ const school=document.getElementById('school').value.trim()||'GHSS ERASAKKANAYAKANUR';
+ const n=chosen.filter(x=>x!==null).length;
+ let rows='';
+ questions.forEach((q,i)=>{
+  const correct=q[2]-1, selected=chosen[i];
+  const sel=selected===null?'பதிலளிக்கவில்லை':'('+ (selected+1)+') '+q[1][selected];
+  const ans='('+q[2]+') '+q[1][correct];
+  const status=selected===null?'பதிலளிக்கவில்லை':selected===correct?'சரி':'தவறு';
+  rows+=`<tr><td>${i+1}</td><td>${escapeHtml(q[0])}<br><small>${q[1].map((x,k)=>'('+ (k+1)+') '+escapeHtml(x)).join(' &nbsp; | &nbsp; ')}</small></td><td>${escapeHtml(sel)}</td><td>${escapeHtml(ans)}</td><td>${status}</td></tr>`;
+ });
+ const report=`<!DOCTYPE html><html lang="ta"><head><meta charset="UTF-8"><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@400;600;700&display=swap" rel="stylesheet"><title>Quiz Report</title><style>body{font-family:'Noto Sans Tamil',sans-serif;color:#111;margin:22px}h1,h2,p{text-align:center;margin:6px}table{border-collapse:collapse;width:100%;font-size:11px;margin-top:18px}th,td{border:1px solid #777;padding:7px;vertical-align:top}th{background:#e8eefb}small{color:#444;line-height:1.8}.meta{margin:18px auto;padding:12px;background:#f2f6ff;border:1px solid #ccd8ef;max-width:700px} .score{font-size:20px;font-weight:bold;text-align:center}@media print{body{margin:10mm}tr{break-inside:avoid}thead{display:table-header-group}}</style></head><body><h1>${escapeHtml(school)}</h1><h2>NMMS – VII STANDARD SCIENCE</h2><h2>7.1.2. விசையும் இயக்கமும்</h2><p>மாணவர் செயல்திறன் அறிக்கை</p><div class="meta"><p><b>மாணவர் பெயர்:</b> ${escapeHtml(name)} &nbsp; <b>வகுப்பு:</b> ${escapeHtml(cls)}</p><p><b>பதிலளித்தவை:</b> ${n}/50 &nbsp; <b>சரியானவை:</b> ${score} &nbsp; <b>தவறானவை:</b> ${n-score}</p><p class="score">மதிப்பெண்: ${score}/50 (${Math.round(score/50*100)}%)</p></div><table><thead><tr><th>வினா எண்</th><th>வினா மற்றும் அனைத்து தெரிவுகளும்</th><th>மாணவர் தேர்வு</th><th>சரியான விடை</th><th>முடிவு</th></tr></thead><tbody>${rows}</tbody></table><p style="margin-top:24px">Prepared by T.S. RAMACHANDRAN • GHSS ERASAKKANAYAKANUR</p><script>window.onload=()=>setTimeout(()=>window.print(),700)<\/script></body></html>`;
+ const holder=document.createElement('div');holder.innerHTML=report.replace(/<script>[\s\S]*?<\/script>/,'');holder.style.position='fixed';holder.style.left='-10000px';holder.style.top='0';holder.style.width='190mm';document.body.appendChild(holder);
+ if(typeof html2pdf==='undefined'){window.print();holder.remove();alert('PDF library ஏற்றப்படவில்லை. Print → Save as PDF பயன்படுத்தவும்.');return;}
+ await document.fonts.ready;
+ const opt={margin:8,filename:'NMMS_Force_and_Motion_Report.pdf',image:{type:'jpeg',quality:0.98},html2canvas:{scale:2,useCORS:true,letterRendering:true},jsPDF:{unit:'mm',format:'a4',orientation:'landscape'}};
+ try{await html2pdf().set(opt).from(holder).save();}catch(e){alert('PDF உருவாக்க முடியவில்லை. இணைய இணைப்பைச் சரிபார்த்து மீண்டும் முயற்சிக்கவும் அல்லது Print → Save as PDF பயன்படுத்தவும்.');}
+ holder.remove();
+}
+render();update();
+</script>
+</body></html>

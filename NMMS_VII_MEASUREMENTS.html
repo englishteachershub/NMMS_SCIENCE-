@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NMMS – அளவீட்டியல் | தமிழ் அறிவியல் வினாடி வினா</title>
+<style>
+:root{--navy:#10284f;--blue:#2563eb;--teal:#0f766e;--gold:#f5b82e;--bg:#f2f6fc;--ink:#172033;--muted:#64748b}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:"Noto Sans Tamil","Latha","Vijaya",system-ui,sans-serif}
+header{background:linear-gradient(120deg,#10284f,#2459a6,#087e83);color:white;text-align:center;padding:25px 14px}
+header h1{margin:0 0 7px;font-size:clamp(23px,4vw,34px)}header p{margin:0;color:#dbeafe;font-size:14px}
+.wrap{max-width:950px;margin:18px auto;padding:0 13px 35px}.card{background:white;border-radius:18px;padding:18px;margin:14px 0;box-shadow:0 8px 24px #18345a12}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:12px}
+label{display:block;font-weight:800;font-size:14px;margin-bottom:5px}input{width:100%;padding:12px;border:1px solid #cbd5e1;border-radius:10px;font:inherit}
+.topline{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}.badge{background:#eaf2ff;color:#1d4ed8;border-radius:99px;padding:7px 12px;font-weight:800;font-size:13px}
+.progress{height:10px;background:#e2e8f0;border-radius:99px;overflow:hidden;margin:14px 0 5px}.bar{height:100%;width:0;background:linear-gradient(90deg,#2563eb,#14b8a6);transition:.25s}
+.qtext{font-size:clamp(19px,3vw,23px);line-height:1.8;font-weight:850;margin:20px 0}.options{display:grid;gap:10px}
+.opt{display:flex;align-items:flex-start;gap:11px;width:100%;text-align:left;background:#f8fafc;border:2px solid #dbe4f0;border-radius:13px;padding:13px;font:inherit;font-size:17px;line-height:1.7;cursor:pointer;color:var(--ink)}
+.opt .letter{flex:0 0 32px;height:32px;border-radius:9px;background:#e2e8f0;display:grid;place-items:center;font-weight:900;color:#334155}
+.opt.selected{border-color:var(--blue);background:#eff6ff}.opt.selected .letter{background:var(--blue);color:white}
+button:focus-visible{outline:3px solid #fbbf24;outline-offset:2px}
+.actions{display:flex;gap:9px;flex-wrap:wrap;justify-content:space-between;margin-top:20px}
+button.action{border:0;border-radius:11px;padding:12px 18px;font:inherit;font-weight:850;cursor:pointer}
+.primary{background:var(--blue);color:white}.secondary{background:#e7edf6;color:#1e3a5f}.submit{background:#0f766e;color:white}
+.small{font-size:13px;color:var(--muted)}.numbers{display:grid;grid-template-columns:repeat(10,1fr);gap:6px;margin-top:12px}
+.num{padding:8px 0;border:1px solid #cbd5e1;border-radius:8px;background:#fff;font-weight:800;cursor:pointer}
+.num.done{background:#dcfce7;border-color:#16a34a;color:#166534}.num.current{background:#1d4ed8;color:#fff;border-color:#1d4ed8}
+.result{display:none}.score{font-size:48px;font-weight:950;color:#1d4ed8}.celebration{font-size:20px;font-weight:950;color:#0f766e;margin:14px 0;text-align:center}
+.game-stats{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}.game-pill{background:#fff7d6;border:1px solid #f5d36b;color:#784b00;border-radius:12px;padding:10px 14px;font-weight:850}
+.review{border-top:1px solid #e2e8f0;padding:13px 0;line-height:1.8}.good{color:#15803d;font-weight:850}.bad{color:#dc2626;font-weight:850}
+footer{text-align:center;color:#64748b;font-size:12px;padding:15px}
+#confettiCanvas{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:9999}
+.pdf-report{font-family:"Noto Sans Tamil","Latha","Vijaya",sans-serif;color:#172033;background:#fff;padding:22px}
+.pdf-report h1{text-align:center;color:#12305a;font-size:23px;margin:0 0 5px}.pdf-report h2{color:#12305a;border-bottom:2px solid #2563eb;padding-bottom:7px;margin-top:22px}
+.pdf-meta{background:#eef5ff;padding:12px;border-radius:8px;line-height:2;margin:15px 0}
+.pdf-summary{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}.pdf-box{border:1px solid #cbd5e1;border-radius:8px;padding:9px;min-width:90px}
+.pdf-question{border:1px solid #d7dfeb;border-radius:8px;padding:11px;margin:9px 0;page-break-inside:avoid}
+.pdf-question h3{margin:0 0 7px;color:#12305a;font-size:14px}.pdf-question p{margin:4px 0;line-height:1.65;font-size:11.5px}
+.pdf-correct{color:#137333;font-weight:bold}.pdf-wrong{color:#b42318;font-weight:bold}.pdf-footer{text-align:center;border-top:1px solid #ccd5e1;margin-top:20px;padding-top:10px;color:#52627a;font-size:11px}
+@media(max-width:460px){.numbers{grid-template-columns:repeat(7,1fr)}.card{padding:14px}}
+@media print{header,.student,.quiz,.navigator,.no-print,footer{display:none!important}.result{display:block!important}.card{box-shadow:none}}
+</style>
+</head>
+<body>
+<header><h1>அளவீட்டியல் – வினாடி வினா</h1><p>NMMS அறிவியல் | வகுப்பு VII – முதல் பருவம் | தமிழ் வழி பயிற்சி</p></header>
+<main class="wrap">
+<section class="card student">
+<h2 style="margin-top:0">👩‍🎓 மாணவர் விவரங்கள்</h2>
+<div class="grid">
+<div><label for="name">மாணவர் பெயர்</label><input id="name" placeholder="உங்கள் பெயரை எழுதவும்"></div>
+<div><label for="class">வகுப்பு / பிரிவு</label><input id="class" value="VIII"></div>
+<div><label for="school">பள்ளியின் பெயர்</label><input id="school" value="GHSS ERASAKKANAYAKANUR"></div>
+</div>
+<p class="small">மொத்தம் 50 வினாக்கள் • ஒவ்வொரு வினாவிற்கும் 1 மதிப்பெண் • சரியான விடையைத் தேர்ந்தெடுக்கவும்.</p>
+</section>
+<section class="card quiz">
+<div class="topline"><span class="badge" id="qno">வினா 1 / 50</span><span class="badge" id="answered">பதிலளித்தவை: 0</span><span class="badge" id="elapsed">நேரம்: 00:00</span></div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div id="loadError" style="display:none;background:#fee2e2;color:#991b1b;padding:12px;border-radius:10px;margin:12px 0">வினாக்களை ஏற்றுவதில் சிக்கல் ஏற்பட்டது. இந்த HTML கோப்பை Chrome உலாவியில் திறக்கவும்.</div><div class="qtext" id="question"></div><div class="options" id="options"></div>
+<div class="actions"><button class="action secondary" id="prev" onclick="move(-1)">← முந்தைய வினா</button><button class="action primary" id="next" onclick="move(1)">அடுத்த வினா →</button></div>
+</section>
+<section class="card navigator">
+<div class="topline"><h3 style="margin:0">வினா எண் பட்டியல்</h3><span class="small">பச்சை = பதிலளித்தது</span></div>
+<div class="numbers" id="numbers"></div>
+<div class="actions"><button class="action submit" onclick="submitQuiz()">🏁 விடைகளைச் சமர்ப்பிக்கவும்</button></div>
+</section>
+<section class="card result" id="result">
+<h2 style="margin-top:0">🏆 உங்கள் தேர்வு முடிவு</h2><div class="score" id="score">0 / 50</div>
+<div id="summary"></div><div class="celebration" id="celebration"></div><div class="game-stats" id="gameStats"></div>
+<div class="grid" style="margin:15px 0">
+<div class="badge">சரியானவை: <span id="correct">0</span></div><div class="badge">தவறானவை: <span id="wrong">0</span></div><div class="badge">விடையளிக்காதவை: <span id="skip">0</span></div><div class="badge">மதிப்பெண்: <span id="percent">0%</span></div>
+</div>
+<h3>விடைகள் – வினா வாரியான மதிப்பீடு</h3><div id="review"></div>
+<div class="actions no-print">
+<button class="action primary" onclick="downloadPDF()">📄 விரிவான அறிக்கையை PDF ஆகப் பதிவிறக்குக</button>
+<button class="action secondary" onclick="window.print()">அச்சிடுக</button>
+<button class="action secondary" onclick="location.reload()">மீண்டும் முயற்சி செய்</button>
+</div>
+</section>
+<footer>கற்றல் ஒரு பயணம் – ஒவ்வொரு முயற்சியும் ஒரு முன்னேற்றம்!<br>GHSS ERASAKKANAYAKANUR<br><b>Prepared by: T.S. RAMACHANDRAN, English Teacher</b></footer>
+</main>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<script>
+const data=[{"q":"SI அலகு முறையின் விரிவாக்கம் ________.","opts":["Indian System of Units","International System of Units","Italian System of Units","எதுவுமில்லை"],"a":2},{"q":"ஒரு இயற்பியல் அளவின் மதிப்பை அளந்தறிய தேவையானது __________.","opts":["எண் மதிப்பு மட்டும்","அலகு மட்டும்","எண் மதிப்பு அல்லது அலகு","எண் மதிப்பு மற்றும் அலகு"],"a":4},{"q":"பொருத்துக: a) நீளம் – i) கிலோகிராம்; b) நிறை – ii) கெல்வின்; c) காலம் – iii) வினாடி; d) வெப்பநிலை – iv) மீட்டர். சரியான பொருத்தம் எது?","opts":["a–iii, b–ii, c–iv, d–i","a–ii, b–i, c–iii, d–iv","a–iv, b–i, c–ii, d–iii","a–iv, b–i, c–iii, d–ii"],"a":4},{"q":"பொருத்துக: a) மின்னோட்டம் – i) வழி அளவு; b) பொருளின் அளவு – ii) கேண்டிலா; c) ஒளிச்செறிவு – iii) ஆம்பியர்; d) வேகம் – iv) மோல். சரியான பொருத்தம் எது?","opts":["a–iii, b–ii, c–iv, d–iv","a–iii, b–iv, c–ii, d–i","a–ii, b–i, c–iv, d–iii","a–ii, b–iii, c–iv, d–i"],"a":2},{"q":"கூற்று: பரப்பளவு என்பது ஒரு வழி அளவு. காரணம்: அடிப்படை அளவான நீளத்தை மூன்று முறை பெருக்கினால் பரப்பளவு கிடைக்கிறது.","opts":["கூற்று சரி; காரணம் தவறு","கூற்று தவறு; காரணம் சரி","கூற்று மற்றும் காரணம் தவறு","கூற்று மற்றும் காரணம் சரி"],"a":1},{"q":"பொருத்துக: a) ஓர் ஆண்டு – i) 9.46 × 10¹⁵ மீட்டர்; b) ஓர் ஒளி ஆண்டு – ii) 4.22 ஒளி ஆண்டு; c) ப்ராக்ஸிமா சென்டாரி – iii) 25000 ஒளி ஆண்டு; d) அண்ட மையத்திலிருந்து புவியின் தொலைவு – iv) 3.153 × 10⁷ வினாடி. சரியான பொருத்தம் எது?","opts":["a–ii, b–i, c–iv, d–iii","a–iii, b–i, c–iv, d–ii","a–iv, b–i, c–ii, d–iii","a–i, b–iii, c–iv, d–ii"],"a":3},{"q":"1 லிட்டர் = ________.","opts":["100 cc","1000 cc","10000 cc","100000 cc"],"a":2},{"q":"பொருத்துக: (i) சதுரத்தின் பரப்பளவு – a) lb; (ii) செவ்வகத்தின் பரப்பளவு – b) ½bh; (iii) முக்கோணத்தின் பரப்பளவு – c) வரைபடத்தாள் முறை; (iv) வட்டத்தின் பரப்பளவு – d) a²; (v) ஒழுங்கற்ற வடிவத்தின் பரப்பளவு – e) πr². சரியான பொருத்தம் எது?","opts":["(i)–c, (ii)–d, (iii)–a, (iv)–e, (v)–b","(i)–d, (ii)–a, (iii)–b, (iv)–e, (v)–c","(i)–d, (ii)–e, (iii)–a, (iv)–c, (v)–b","(i)–c, (ii)–a, (iii)–b, (iv)–e, (v)–d"],"a":2},{"q":"ஒழுங்கற்ற வடிவமுடைய பொருளின் கன அளவை ________ ஐப் பயன்படுத்திக் கண்டறியலாம்.","opts":["வரைபடத்தாள்","அளவு நாடா","காகிதம்","அளவிடும் குவளை"],"a":4},{"q":"பொருத்துக: a) கனசதுரத்தின் கன அளவு – i) நீளம் × நீளம் × நீளம்; b) கனசெவ்வகத்தின் கன அளவு – ii) நீளம் × அகலம் × உயரம்; c) கோளத்தின் கன அளவு – iii) πr²h; d) உருளையின் கன அளவு – iv) 4/3 πr³. சரியான பொருத்தம் எது?","opts":["a–ii, b–i, c–iv, d–iii","a–iii, b–i, c–iv, d–ii","a–i, b–ii, c–iv, d–iii","a–i, b–iii, c–iv, d–ii"],"a":3},{"q":"அடர்த்தி = ________.","opts":["நிறை / கனஅளவு","நிறை × கனஅளவு","கனஅளவு / நிறை","கனஅளவு – நிறை"],"a":1},{"q":"பொருந்தாததைத் தேர்ந்தெடு.","opts":["வானியல் அலகு","கேலன்","ஒளி ஆண்டு","கிலோமீட்டர்"],"a":2},{"q":"அடர்த்தியின் SI அலகு ________.","opts":["கி.கி. மீ⁻³","கி.கி. மீ³","கி.கி. / மீ³","1 மற்றும் 3"],"a":4},{"q":"பொருந்தாததைத் தேர்ந்தெடு.","opts":["நிறை","மின்னோட்டம்","மின்னூட்டம்","பொருளின் அளவு"],"a":3},{"q":"சமநிறையுள்ள இரு கோளங்களின் கன அளவு விகிதம் 2:1 எனில், அவற்றின் அடர்த்தியின் விகிதம் ________.","opts":["2 : 1","1 : 2","4 : 1","1 : 4"],"a":2},{"q":"ஒரு ஒளி ஆண்டு என்பது ________.","opts":["9.46 × 10¹⁵ மீ","1.496 × 10⁸ கி.மீ","1.496 × 10¹¹ மீ","2 மற்றும் 3"],"a":1},{"q":"கோள்களுக்கிடைப்பட்ட தொலைவை ________ என்ற அலகால் அளக்கிறோம்.","opts":["வானியல் அலகு","கி.மீ.","ஒளி ஆண்டு","நாட்டிகல் மைல்"],"a":1},{"q":"அண்மை மற்றும் சேய்மை நிலையில் பூமிக்கும் சூரியனுக்கும் உள்ள தொலைவு முறையே ________.","opts":["152.1 மில்லியன் கி.மீ., 147.1 மில்லியன் கி.மீ.","147.1 மில்லியன் கி.மீ., 152.1 மில்லியன் கி.மீ.","127.1 மில்லியன் கி.மீ., 149.6 மில்லியன் கி.மீ.","149.6 மில்லியன் கி.மீ., 127.1 மில்லியன் கி.மீ."],"a":2},{"q":"பின்வருவனவற்றுள் தவறான இணை எது?","opts":["1 அடி – 30 மி.மீ.","1 கேலன் – 3785 மி.லி.","1 அவுன்ஸ் – 30 மி.லி.","1 குவார்ட் – 1 லி"],"a":1},{"q":"அடிப்படை அளவுகளின் எண்ணிக்கை?","opts":["7","22","10","எண்ணில் அடங்காதது"],"a":1},{"q":"பொருந்தாததைத் தேர்ந்தெடு.","opts":["நிறை","வேகம்","அடர்த்தி","பரப்பு"],"a":1},{"q":"கூற்று: நீளம் ஒரு அடிப்படை அளவாகும். காரணம்: நீளத்தை வேறு எந்த இயற்பியல் அளவுகளாலும் குறிப்பிட இயலாது.","opts":["கூற்று மற்றும் காரணம் சரி","கூற்று தவறு; காரணம் சரி","கூற்று மற்றும் காரணம் சரி; மேலும் காரணம் கூற்றை விளக்கவில்லை","கூற்று மற்றும் காரணம் சரி; மேலும் காரணம் கூற்றை விளக்குகிறது"],"a":4},{"q":"ஒரு மீட்டர் பக்க அளவு கொண்ட சதுரத்தினுள் அடைபடும் பரப்பு ________.","opts":["கன அளவு","ஒரு சதுர மீட்டர்","ஒரு கன மீட்டர்","அனைத்தும்"],"a":2},{"q":"கீழ்க்கண்டவற்றுள் கன அளவு குறித்த தவறான கருத்து எது?","opts":["ஒரு முப்பரிமாணப் பொருள் ஆக்கிரமித்துக் கொள்ளும் இடமே அதன் கன அளவு.","கன அளவு = அடிப்பரப்பு × உயரம்","கன அளவின் அலகு கி.கி./மீ³","கன அளவை பருமன் எனவும் அழைக்கலாம்."],"a":3},{"q":"கீழ்க்கண்டவற்றுள் அதிக அடர்த்தி கொண்டது எது?","opts":["பாதரசம்","வெள்ளி","இரும்பு","தங்கம்"],"a":4},{"q":"விண்மீன்களுக்கிடப்பட்ட தொலைவை ________ என்ற அலகால் அளக்கிறோம்.","opts":["வானியல் அலகு","கி.மீ.","ஒளி ஆண்டு","நாட்டிகல் மைல்"],"a":3},{"q":"தவறான இணையைத் தேர்வு செய்க.","opts":["பரப்பு – நீளம் × அகலம்","மின்னோட்டம் – மின்னூட்டம் × நேரம்","வேகம் – தூரம் / காலம்","அடர்த்தி – நிறை / கன அளவு"],"a":2},{"q":"விளக்கெண்ணெயின் அடர்த்தி ________.","opts":["770 கி.கி./மீ³","1.2 கி.கி./மீ³","961 கி.கி./மீ³","10500 கி.கி./மீ³"],"a":3},{"q":"திடப்பொருள்களைப் போன்றே திரவங்களின் கன அளவை அளக்க இயலாது. இதன் காரணம் ________.","opts":["திரவங்கள் குறிப்பிட்ட இடத்தை ஆக்கிரமித்துக் கொள்ளும்","திரவங்களுக்கு நிலையான வடிவம் உண்டு","திரவங்களுக்கு நிலையான வடிவம் இல்லை","திரவங்கள் குறைந்த நிறை கொண்டது"],"a":3},{"q":"பின்வருவனவற்றுள் தவறான இணை எது?","opts":["ப்ராக்ஸிமா சென்டாரி – புவியிலிருந்து 4.22 ஒளி ஆண்டு தொலைவு","பூமி – அண்ட மையத்திலிருந்து 25000 ஒளி ஆண்டு தொலைவு","ஒளி ஆண்டு – 9.46 × 10¹⁵ மீ","வானியல் அலகு – 1.496 × 10¹¹ கி.மீ."],"a":4},{"q":"சமபருமனுள்ள இரு கோளங்களின் நிறை விகிதம் 1 : 4 எனில், அவற்றின் அடர்த்தியின் விகிதம் ________.","opts":["2 : 1","1 : 2","4 : 1","1 : 4"],"a":4},{"q":"ஒரு வட்ட வடிவத் தட்டின் ஆரம் 7 செ.மீ. எனில், அதன் பரப்பளவு யாது?","opts":["49 செ.மீ.","49 ச.செ.மீ.","154 செ.மீ.","154 ச.செ.மீ."],"a":4},{"q":"பாதரசத்தின் அடர்த்தி ________ கி.கி./மீ³.","opts":["13600","1000","10000","100"],"a":1},{"q":"ஒரு வானியல் அலகு என்பது ________.","opts":["149.6 மில்லியன் கி.மீ.","1.496 × 10⁸ கி.மீ.","1.496 × 10¹¹ மீ","அனைத்தும்"],"a":4},{"q":"பொருள் ஒன்றின் மேற்பரப்பின் அளவு ________.","opts":["கன அளவு","சுற்றளவு","பரப்பளவு","அனைத்தும்"],"a":3},{"q":"கூற்று: சம கன அளவு கொண்ட இரும்புத்துண்டு மற்றும் மரத்துண்டின் அடர்த்தியை ஒப்பிட, இரும்புத்துண்டு அதிகமான அடர்த்தியைக் கொண்டிருக்கும். காரணம்: குறிப்பிட்ட கன அளவு கொண்ட பொருளின் உள்ளே அதிக நிறை திணிக்கப்பட்டிருந்தால், அதன் அடர்த்தி அதிகமாக இருக்கும்.","opts":["கூற்று சரி; காரணம் தவறு","கூற்று தவறு; காரணம் சரி","கூற்று மற்றும் காரணம் சரி","கூற்று மற்றும் காரணம் தவறு"],"a":3},{"q":"திரவங்களின் கன அளவைக் குறிக்கப் பயன்படும் பொதுவான அலகு ________.","opts":["மீட்டர்²","லிட்டர்","கி.கி./செ.மீ.","கி./செ.மீ.³"],"a":2},{"q":"இரும்பினால் செய்யப்பட்ட ஒரு பெட்டியின் பருமன் 125 செ.மீ.³. எனில் அதன் நிறை ________. (இரும்பின் அடர்த்தி = 7.8 கி./செ.மீ.³)","opts":["9.75 கி.கி.","0.975 கி.கி.","97.5 கி.கி.","975 கி.கி."],"a":2},{"q":"அலுமினியத்தால் செய்யப்பட்ட ஒரு கோளத்தின் நிறை 270 கி.கி. அலுமினியத்தின் அடர்த்தி 2700 கி.கி./மீ³ எனில், கோளத்தின் பருமனைக் காண்க.","opts":["1 மீ³","0.1 மீ³","7.29 மீ³","729 மீ³"],"a":2},{"q":"நெப்டியூன் சூரியனிடமிருந்து எவ்வளவு தொலைவில் உள்ளது?","opts":["30 ஒளி ஆண்டு","22 ஒளி ஆண்டு","30 வானியல் அலகு","22 வானியல் அலகு"],"a":3},{"q":"250 கி. நிறையுள்ள ஒரு திரவம் 1000 cc இடத்தை நிரப்புகிறது. எனில், திரவத்தின் கன அளவு _______.","opts":["4 லிட்டர்","0.4 லிட்டர்","1 லிட்டர்","4 கி./செ.மீ.³"],"a":3},{"q":"பூமியானது அண்டத்தின் மையத்திலிருந்து எவ்வளவு தொலைவில் உள்ளது?","opts":["250 ஒளி ஆண்டு","2500 ஒளி ஆண்டு","25000 ஒளி ஆண்டு","20 ஒளி ஆண்டு"],"a":3},{"q":"தவறான இணையைத் தேர்ந்தெடுக்கவும்.","opts":["1 லிட்டர் – 1000 மிலி","கன அளவு – அடர்த்தி / நிறை","பரப்பளவு – வழி அளவு","ஒளியின் வேகம் – 3 × 10⁸ மீ/வி"],"a":2},{"q":"ஒளியானது வெற்றிடத்தில் ஓர் ஆண்டில் கடக்கும் தொலைவு ________.","opts":["சராசரி ஆண்டு","ஒளி ஆண்டு","வானியல் அலகு","2 மற்றும் 3"],"a":2},{"q":"280 கி.கி. நிறை கொண்ட ஒரு திட உருளையின் கன அளவு 4 மீ³ எனில் அதன் அடர்த்தி யாது?","opts":["70 கி.கி./மீ³","1120 கி.கி./மீ³","70 கி.கி./மீ⁻³","1120 கி.கி./மீ⁻³"],"a":1},{"q":"கூற்று: கல்லின் கன அளவை அளவிடும் முறையைப் மூலம் அளக்கலாம். காரணம்: கல் ஒரு ஒழுங்கற்ற வடிவமுடைய பொருள்.","opts":["கூற்று சரி; காரணம் தவறு","கூற்று தவறு; காரணம் சரி","கூற்று மற்றும் காரணம் தவறு","கூற்று மற்றும் காரணம் சரி"],"a":4},{"q":"பூமிக்கும் சூரியனுக்கும் இடைப்பட்ட சராசரித் தொலைவு _________.","opts":["ஒளி ஆண்டு","நாட்டிகல் மைல்","வானியல் அலகு","சர்வதேச அலகு"],"a":3},{"q":"அடிப்படை அளவுகளைப் பெருக்கியோ அல்லது வகுத்தோ பெறப்படும் அளவுகள் _________ ஆகும்.","opts":["அறிவியல் அளவுகள்","இணை அளவுகள்","வழி அளவுகள்","2 மற்றும் 3"],"a":3},{"q":"பொருந்தாததைத் தேர்ந்தெடு.","opts":["வினாடி","கிலோகிராம்","மீட்டர்","கி.கி./மீ³"],"a":4},{"q":"அடிப்பக்கம் 6 மீ., உயரம் 8 மீ. உடைய முக்கோணத்தின் பரப்பு ________.","opts":["24 மீ","48 மீ","24 மீ²","48 மீ²"],"a":3}];
+let current=0,answers=Array(data.length).fill(0),submitted=false,lastRows=[],startTime=Date.now(),elapsedSeconds=0;
+const $=id=>document.getElementById(id);
+window.addEventListener("error",()=>{const e=document.getElementById("loadError");if(e)e.style.display="block";});
+setInterval(()=>{if(!submitted){elapsedSeconds=Math.floor((Date.now()-startTime)/1000);$("elapsed").textContent="நேரம்: "+fmtTime(elapsedSeconds)}},1000);
+function fmtTime(n){return String(Math.floor(n/60)).padStart(2,"0")+":"+String(n%60).padStart(2,"0")}
+function render(){
+ const item=data[current];$("qno").textContent=`வினா ${current+1} / ${data.length}`;$("question").textContent=(current+1)+". "+item.q;$("options").innerHTML="";
+ item.opts.forEach((v,i)=>{const b=document.createElement("button");b.className="opt"+(answers[current]===i+1?" selected":"");const letter=document.createElement("span");letter.className="letter";letter.textContent=["அ","ஆ","இ","ஈ"][i];const txt=document.createElement("span");txt.textContent=v;b.append(letter,txt);b.onclick=()=>{if(submitted)return;answers[current]=i+1;render()};$("options").append(b)});
+ $("prev").disabled=current===0;$("prev").style.opacity=current===0?".45":"1";$("next").textContent=current===data.length-1?"வினா பட்டியலுக்குச் செல்":"அடுத்த வினா →";
+ const count=answers.filter(Boolean).length;$("answered").textContent=`பதிலளித்தவை: ${count}`;$("bar").style.width=(count/data.length*100)+"%";$("numbers").innerHTML="";
+ data.forEach((_,i)=>{const b=document.createElement("button");b.className="num"+(answers[i]?" done":"")+(i===current?" current":"");b.textContent=i+1;b.onclick=()=>{current=i;render()};$("numbers").append(b)});
+}
+function move(d){if(current===data.length-1&&d===1){$("numbers").scrollIntoView({behavior:"smooth"});return}current=Math.max(0,Math.min(data.length-1,current+d));render();window.scrollTo({top:240,behavior:"smooth"})}
+function submitQuiz(){
+ if(submitted)return;const name=$("name").value.trim();if(!name){alert("மாணவர் பெயரை உள்ளிடவும்.");$("name").focus();return}
+ const unanswered=answers.filter(x=>!x).length;if(!confirm(`தேர்வைச் சமர்ப்பிக்கவா? விடையளிக்காத வினாக்கள்: ${unanswered}`))return;
+ submitted=true;elapsedSeconds=Math.floor((Date.now()-startTime)/1000);let correct=0,wrong=0,skip=0;lastRows=[];
+ data.forEach((q,i)=>{let a=answers[i],ok=a===q.a;if(!a)skip++;else if(ok)correct++;else wrong++;lastRows.push({n:i+1,question:q.q,options:q.opts,selectedIndex:a,selected:a?q.opts[a-1]:"விடையளிக்கவில்லை",correct:q.opts[q.a-1],correctIndex:q.a,ok,status:!a?"விடையளிக்கவில்லை":ok?"சரி":"தவறு"})});
+ const pct=Math.round(correct/data.length*100),level=pct>=90?"தங்க நட்சத்திரம்":pct>=75?"வெள்ளி நட்சத்திரம்":pct>=50?"வெண்கல நட்சத்திரம்":"முயற்சியாளர்";
+ const msg=pct>=90?"அற்புதம்! நீங்கள் அளவீட்டியல் சாம்பியன்! உங்கள் உழைப்பு பேசுகிறது!":pct>=75?"மிகவும் நன்று! இன்னும் சிறிது பயிற்சி செய்தால் முழு மதிப்பெண் பெறலாம்!":pct>=50?"நல்ல முயற்சி! தவறான வினாக்களை மீண்டும் படித்து முன்னேறுங்கள்!":"மனம் தளர வேண்டாம். ஒவ்வொரு முயற்சியும் வெற்றிக்கு அருகில் அழைத்துச் செல்லும்!";
+ $("score").textContent=`${correct} / ${data.length}`;$("correct").textContent=correct;$("wrong").textContent=wrong;$("skip").textContent=skip;$("percent").textContent=pct+"%";
+ $("summary").textContent=`${name} • வகுப்பு ${$("class").value} • ${$("school").value} • எடுத்த நேரம்: ${fmtTime(elapsedSeconds)}`;
+ $("celebration").textContent=(pct>=75?"🎉 🏆 "+msg:"🌟 "+msg);
+ $("gameStats").innerHTML=`<span class="game-pill">⭐ நிலை: ${level}</span><span class="game-pill">⚡ புள்ளிகள்: ${correct*10} XP</span><span class="game-pill">🎯 துல்லியம்: ${pct}%</span><span class="game-pill">🏅 ${correct>=45?"சாதனை வீரர்":correct>=35?"முன்னேறும் மாணவர்":"தொடர்ந்து முயற்சிப்பவர்"}</span>`;
+ $("review").innerHTML="";lastRows.forEach(r=>{const d=document.createElement("div");d.className="review";d.innerHTML=`<b>வினா ${r.n}: ${escapeHTML(r.question)}</b><br><span class="${r.ok?"good":"bad"}">உங்கள் விடை: ${escapeHTML(r.selected)}</span><br>சரியான விடை: <span class="good">${escapeHTML(r.correct)}</span><br>${r.ok?"✅ சரியான விடை":"📘 சரியான விடையை மீண்டும் படிக்கவும்"}`;$("review").append(d)});
+ $("result").style.display="block";$("result").scrollIntoView({behavior:"smooth"});launchConfetti()
+}
+function escapeHTML(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function launchConfetti(){const canvas=document.createElement("canvas");canvas.id="confettiCanvas";document.body.append(canvas);const ctx=canvas.getContext("2d");let w=canvas.width=innerWidth,h=canvas.height=innerHeight;const pieces=Array.from({length:180},()=>({x:Math.random()*w,y:-Math.random()*h*.5,r:3+Math.random()*5,v:2+Math.random()*5,a:Math.random()*6.28,spin:(Math.random()-.5)*.2}));let frames=0;function draw(){ctx.clearRect(0,0,w,h);pieces.forEach(p=>{p.y+=p.v;p.x+=Math.sin(p.a+=p.spin)*2;ctx.fillStyle=["#f59e0b","#2563eb","#16a34a","#ec4899","#8b5cf6"][Math.floor((p.x+p.y)%5)];ctx.fillRect(p.x,p.y,p.r,p.r*1.7)});if(++frames<180)requestAnimationFrame(draw);else canvas.remove()}draw()}
+function buildPDFReport(){
+ const correct=lastRows.filter(r=>r.ok).length,wrong=lastRows.filter(r=>r.status==="தவறு").length,skip=lastRows.filter(r=>r.status==="விடையளிக்கவில்லை").length,pct=Math.round(correct/data.length*100),name=$("name").value.trim(),school=$("school").value.trim()||"GHSS ERASAKKANAYAKANUR";
+ let h=`<div class="pdf-report" id="pdfReport"><h1>விரிவான வினாடி வினா செயல்திறன் அறிக்கை</h1><div style="text-align:center;font-weight:bold">NMMS அறிவியல் – 7.1.1 அளவீட்டியல் | தமிழ் வழி பயிற்சி</div>
+ <div class="pdf-meta"><b>பள்ளி:</b> ${escapeHTML(school)}<br><b>மாணவர் பெயர்:</b> ${escapeHTML(name)}<br><b>வகுப்பு / பிரிவு:</b> ${escapeHTML($("class").value)}<br><b>மொத்த வினாக்கள்:</b> 50 | <b>மொத்த மதிப்பெண்கள்:</b> 50<br><b>எடுத்த நேரம்:</b> ${fmtTime(elapsedSeconds)}<br><b>அறிக்கை நாள்:</b> ${new Date().toLocaleString("ta-IN")}</div>
+ <h2>மதிப்பெண் சுருக்கம்</h2><div class="pdf-summary"><div class="pdf-box"><b>மதிப்பெண்</b><br>${correct}/50</div><div class="pdf-box"><b>சதவீதம்</b><br>${pct}%</div><div class="pdf-box"><b>சரியானவை</b><br>${correct}</div><div class="pdf-box"><b>தவறானவை</b><br>${wrong}</div><div class="pdf-box"><b>விடையளிக்காதவை</b><br>${skip}</div></div>
+ <p><b>சாதனை நிலை:</b> ${pct>=90?"தங்க நட்சத்திரம்":pct>=75?"வெள்ளி நட்சத்திரம்":pct>=50?"வெண்கல நட்சத்திரம்":"முயற்சியாளர்"}</p><p><b>ஊக்கச் செய்தி:</b> ${pct>=90?"அற்புதமான சாதனை! இதே உற்சாகத்துடன் தொடர்ந்து பயிற்சி செய்து NMMS தேர்விலும் வெற்றி பெறுங்கள்.":pct>=75?"மிகவும் நன்று! தவறிய வினாக்களைத் திருத்திப் பயிற்சி செய்தால் இன்னும் உயர்ந்த மதிப்பெண் பெறலாம்.":pct>=50?"நல்ல முயற்சி. தவறுகளைப் பார்த்து கற்றுக்கொள்வதே முன்னேற்றத்தின் முதல் படி. தினமும் பயிற்சி செய்யுங்கள்.":"மனம் தளர வேண்டாம். அடிப்படைக் கருத்துகளை மீண்டும் படித்து, தினமும் சிறிது சிறிதாகப் பயிற்சி செய்யுங்கள்."}</p>
+ <h2>வினா வாரியான முழு அறிக்கை</h2>`;
+ lastRows.forEach(r=>{h+=`<div class="pdf-question"><h3>வினா ${r.n}. ${escapeHTML(r.question)}</h3>`;r.options.forEach((o,i)=>{h+=`<p>${["அ","ஆ","இ","ஈ"][i]}) ${escapeHTML(o)} ${i+1===r.correctIndex?'<span class="pdf-correct">✓ சரியான விடை</span>':""}</p>`});h+=`<p><b>மாணவர் தேர்ந்தெடுத்த விடை:</b> ${escapeHTML(r.selected)}</p><p><b>சரியான விடை:</b> <span class="pdf-correct">${escapeHTML(r.correct)}</span></p><p><b>மதிப்பீடு:</b> <span class="${r.ok?"pdf-correct":"pdf-wrong"}">${r.ok?"சரி":r.status==="தவறு"?"தவறு":"விடையளிக்கவில்லை"}</span></p></div>`});
+ h+=`<div class="pdf-footer">GHSS ERASAKKANAYAKANUR | முயற்சி + பயிற்சி + நம்பிக்கை = வெற்றி<br><b>Prepared by: T.S. RAMACHANDRAN, English Teacher</b></div></div>`;return h
+}
+async function downloadPDF(){
+ if(!submitted){alert("முதலில் வினாடி வினாவைச் சமர்ப்பிக்கவும்.");return}
+ const btn=document.querySelector('button[onclick="downloadPDF()"]');btn.disabled=true;btn.textContent="PDF தயாராகிறது...";
+ const holder=document.createElement("div");holder.style.position="fixed";holder.style.left="-10000px";holder.style.top="0";holder.style.width="780px";holder.innerHTML=buildPDFReport();document.body.append(holder);
+ try{if(typeof html2pdf==="undefined")throw new Error("PDF library unavailable");await html2pdf().set({margin:8,filename:`NMMS_Alaveettial_Report_${$("name").value.trim().replace(/[^a-zA-Z0-9அ-ஹ]/g,"_")||"Student"}.pdf`,image:{type:"jpeg",quality:.97},html2canvas:{scale:2,useCORS:true,backgroundColor:"#ffffff"},jsPDF:{unit:"mm",format:"a4",orientation:"portrait"},pagebreak:{mode:["css","legacy"]}}).from(holder.querySelector("#pdfReport")).save()}
+ catch(e){alert("PDF தானாக உருவாகவில்லை. அச்சிடும் சாளரத்தில் 'Save as PDF' என்பதைத் தேர்ந்தெடுக்கவும்.");const w=window.open("","_blank");w.document.write(`<html lang="ta"><head><meta charset="UTF-8"><title>விரிவான அறிக்கை</title><style>body{font-family:"Noto Sans Tamil","Latha",sans-serif;padding:20px}.pdf-question{page-break-inside:avoid}</style></head><body>${buildPDFReport()}<script>window.onload=()=>window.print()<\/script></body></html>`);w.document.close()}
+ finally{holder.remove();btn.disabled=false;btn.textContent="📄 விரிவான அறிக்கையை PDF ஆகப் பதிவிறக்குக"}
+}
+render();
+</script>
+</body>
+</html>
